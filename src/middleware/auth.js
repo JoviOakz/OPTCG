@@ -1,8 +1,10 @@
-const jwt = require('jsonwebtoken');
-const Collectible = require('../models/collectible');
-const SECRET = process.env.JWT_SECRET;
+import jwt from "jsonwebtoken";
+import Collectible from "../models/collectible.js";
 
-exports.authenticateJWT = (req, res, next) => {
+const { verify } = jwt;
+const SECRET = process.env.JWT_SECRET || "dev_secret";
+
+export function authenticateJWT(req, res, next) {
   const authHeader = req.headers.authorization;
 
   if (!authHeader)
@@ -10,23 +12,23 @@ exports.authenticateJWT = (req, res, next) => {
 
   const token = authHeader.split(" ")[1];
 
-  jwt.verify(token, SECRET, (err, user) => {
+  verify(token, SECRET, (err, user) => {
     if (err)
       return res.status(403).json({ message: "Token inválido" });
 
     req.user = user;
     next();
   });
-};
+}
 
-exports.authorizeOwnerOrAdmin = async (req, res, next) => {
+export async function authorizeOwnerOrAdmin(req, res, next) {
   const item = await Collectible.findByPk(req.params.id);
 
   if (!item)
     return res.status(404).json({ message: "Não encontrado" });
 
-  if (item.ownerId !== req.user.id && req.user.role !== 'admin')
+  if (item.ownerId !== req.user.id && req.user.role !== "admin")
     return res.status(403).json({ message: "Acesso proibido" });
 
   next();
-};
+}

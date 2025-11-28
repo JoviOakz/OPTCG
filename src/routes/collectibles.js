@@ -1,14 +1,14 @@
-const express = require('express');
-const router = express.Router();
-const collectibleController = require('../controllers/collectibleController');
-const importController = require("../controllers/collectibleImportController");
-const { authenticateJWT, authorizeOwnerOrAdmin } = require('../middleware/auth');
+import { Router } from 'express';
+const router = Router();
+import { list, getById, create, update, remove } from '../controllers/collectibleController.js';
+import { importar } from "../controllers/collectibleImportController.js";
+import { authenticateJWT, authorizeOwnerOrAdmin } from '../middleware/auth.js';
 
-router.get('/', collectibleController.list);
-router.get('/:id', collectibleController.getById);
-router.post('/', authenticateJWT, collectibleController.create);
-router.put('/:id', authenticateJWT, authorizeOwnerOrAdmin, collectibleController.update);
-router.delete('/:id', authenticateJWT, authorizeOwnerOrAdmin, collectibleController.remove);
-router.post("/importar/:cardId", authenticateJWT, importController.importar);
-
-module.exports = router;
+router.get('/', list);
+router.get('/:id', getById);
+router.post('/', authenticateJWT, create);
+router.put('/:id', authenticateJWT, authorizeOwnerOrAdmin, update);
+router.delete('/:id', authenticateJWT, authorizeOwnerOrAdmin, remove);
+router.post("/importar/:cardId", authenticateJWT, importar);
+    
+export default router;

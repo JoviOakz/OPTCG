@@ -1,5 +1,5 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+import sequelize from '../config/database.js';
+import { DataTypes } from 'sequelize';
 
 const Collectible = sequelize.define('Collectible', {
   nome: { type: DataTypes.STRING, allowNull: false },
@@ -10,4 +10,4 @@ const Collectible = sequelize.define('Collectible', {
   ownerId: { type: DataTypes.INTEGER, allowNull: false }
 });
 
-module.exports = Collectible;
+export default Collectible;

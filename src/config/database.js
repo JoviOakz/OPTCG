@@ -1,18 +1,18 @@
-const { Sequelize } = require('sequelize');
-const path = require('path');
-require('dotenv').config();
+import { Sequelize } from 'sequelize';
+import dotenv from 'dotenv';
 
-const env = process.env.NODE_ENV || 'development';
-let storage = process.env.DATABASE_STORAGE || path.join(__dirname, '..', 'database.sqlite');
+dotenv.config();
 
-if (env === 'test') {
-  storage = ':memory:';
-}
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT || 5432,
+    dialect: 'postgres',
+    logging: false
+  }
+);
 
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage,
-  logging: false
-});
-
-module.exports = sequelize;
+export default sequelize;

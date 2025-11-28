@@ -1,5 +1,5 @@
-const axios = require("axios");
-const { Collectible, sequelize } = require("../models");
+import { get } from "axios";
+import { Collectible, sequelize } from "../models";
 
 async function importCards() {
   try {
@@ -8,7 +8,7 @@ async function importCards() {
     const SET = "OP01";
 
     const url = `https://optcgapi.com/api/sets/${SET}/`;
-    const response = await axios.get(url);
+    const response = await get(url);
 
     const cards = response.data.cards;
     console.log(`✔ ${cards.length} cartas encontradas`);

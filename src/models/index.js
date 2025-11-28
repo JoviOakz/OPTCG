@@ -1,15 +1,15 @@
-const Sequelize = require("sequelize");
-const sequelize = require("../config/database");
+import Sequelize from "sequelize";
+import sequelize from "../config/database.js";
 
 // Importação dos modelos
-const User = require("./User");
-const Collectible = require("./collectible");
+import User from "./user.js";
+import Collectible from "./collectible.js";
 
 // Associação: 1 usuário → muitos colecionáveis
 User.hasMany(Collectible, { foreignKey: "ownerId", onDelete: "CASCADE" });
 Collectible.belongsTo(User, { foreignKey: "ownerId" });
 
-module.exports = {
+export default {
   sequelize,
   Sequelize,
   User,
