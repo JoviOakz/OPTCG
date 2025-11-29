@@ -1,6 +1,6 @@
 import { hash as _hash, compare } from "bcryptjs";
 import jwt from "jsonwebtoken";
-import User from "../models/user.js"; // não esqueça de importar o model!
+import User from "../models/user.js";
 
 const { sign } = jwt;
 const SECRET = process.env.JWT_SECRET || "dev_secret";
